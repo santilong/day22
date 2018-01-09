@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Session登录</title>
+</head>
+<body>
+    <form id="ff" action="/login/" method="post">
+        {{ csrf_token }}
+        {% csrf_token %}
+        <input type="text" name="user">
+        <input type="password" name="pwd">
+        <input type="submit" value="提交">
+        <input id="an1" type="button" value="按钮1">
+        <input id="an2" type="button" value="按钮2">
+    </form>
+    <script src="/static/jquery-2.1.4.min.js"></script>
+    <script src="/static/jquery.cookie.js"></script>
+    <script>
+        $(function () {
+            $.ajaxSetup({
+                beforeSend:function (xhr,settings) {
+                    xhr.setRequestHeader('X-CSRFtoken',$.cookie('csrftoken'))
+                }
+            })
+            $('#an1').click(function () {
+                $.ajax({
+                    url:'/login/',
+                    type:'POST',
+                    data:$('#ff').serialize(),
+                    //headers:{'X-CSRFtoken':$.cookie('csrftoken')},
+                    success:function (arg) {
+
+                    }
+                })
+            }) 
+            $('#an2').click(function () {
+                $.ajax({
+                    url:'/login/',
+                    type:'POST',
+                    data:{'user':'santi','pwd':2222},
+                    //headers:{'X-CSRFtoken':$.cookie('csrftoken')},
+                    success:function (arg) {
+
+                    }
+                })
+            })
+        })
+    </script>
+</body>
+</html>
